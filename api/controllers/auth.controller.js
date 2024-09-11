@@ -3,9 +3,9 @@ import Admin from "../models/admin.model.js";
 import jwt from "jsonwebtoken";
 import bcryptjs from "bcryptjs";
 
-export const testUser= (req, res)=>{
-    res.send("test is working");
-  };
+// export const testUser= (req, res)=>{
+//     res.send("test is working");
+//   };
 
   //User Signup
   export const usersignup=async(req, res)=>{
@@ -129,7 +129,7 @@ export const testUser= (req, res)=>{
     const {password:pass, ...userWithoutPassword}= validAdmin._doc;
     console.log(userWithoutPassword);
     res.cookie("access_token", token,{
-      httpOnly:true,
+      httpOnly:true, 
       secure:process.env.NODE_ENV ===  "production",
       sameSite :"strict",
       maxAge:360000,
@@ -143,5 +143,14 @@ catch(error){
   res.status(500).send({ message: "An error occurred during sign-in. Please try again later." + error }); 
  }
    }
+
+   export const signout = async (req, res) => {
+    try {
+      res.clearCookie("access_token");
+      await res.status(200).json("User has been logged out!");
+    } catch (error) {
+      res.send(error)
+    }
+  };
 
 
